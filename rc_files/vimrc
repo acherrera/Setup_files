@@ -2,10 +2,6 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 
-" Needed for pathogen plugin manager
-execute pathogen#infect()
-
-
 " Colors!
 set t_Co=256
 syntax enable
