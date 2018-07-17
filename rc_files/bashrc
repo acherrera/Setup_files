@@ -39,14 +39,3 @@ alias l='ls -CF'
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-
-# export ROS_HOSTNAME=192.168.220.162
-# export ROS_MASTER_URI=http://192.168.220.86:11311
-
-# Sourcing for ROS
-# If this isn't at end of file, it messes stuff up. No idea why
-source /opt/ros/kinetic/setup.bash
-source /home/tony/Repos/LiDAR/devel/setup.bash
-
-
-

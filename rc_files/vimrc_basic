@@ -1,0 +1,50 @@
+" Most important setting
+:imap jk <Esc>
+
+" Colors!
+syntax enable
+set background=dark
+
+" ========================== Personal Settings ===================
+
+" This is all my personal settings ===============================
+set number
+let python_highlight_all=1
+syntax on
+set incsearch
+set hlsearch
+
+"This wil allow the tab complete file finder to work ============
+set path+=**
+set wildmenu
+
+" This is for tab completion =====================================
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set textwidth=79
+set expandtab
+set autoindent
+set fileformat=unix
+
+" shit for YCM =================================================
+let g:ycm_python_binary_path = '/usr/bin/python3'
+let g:ycm_autoclose_preview_window_after_completion=2
+
+" shit for powerline ===========================================
+set rtp+=/usr/share/powerline/bindings/vim/
+
+" Always show statuslie =========================================
+set laststatus=2
+ " Use 256 colours (Use this setting only if your terminal supports 256  colours)
+
+" Code folding
+set foldmethod=indent 
+set foldnestmax=3
+
+" YCM info crap for C++ configuration
+ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'  
+
+" Syntastic settings - allows the checker to check inthe /include directory
+let g:syntastic_cpp_config_file=".syntastic_cpp_config"
+
