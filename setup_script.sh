@@ -19,6 +19,9 @@ sudo apt-get install python3-dev
 sudo apt-get install vim-nox
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
+# Update bash with changes
+. ~/.bashrc
+
 clear
 echo "Run vim and :PluginInstall"
 echo "Then run YCM_install script"

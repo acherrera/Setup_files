@@ -5,4 +5,11 @@
 # Revisions
 #           2018.07.18 - intial creation
 
+
+if [ $# -eq 0 ]
+    then
+        echo "Specify number of cores to use"
+        exit
+fi
+
 YCM_CORES=$1 ~/.vim/bundle/YouCompleteMe/install.py
