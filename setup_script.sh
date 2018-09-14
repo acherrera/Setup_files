@@ -4,6 +4,7 @@
 # Notes: 
 # Revisions:
 #               2018.07.18 - Intitial Version
+#               2018.09.13 - updated with htop
 
 
 # Copy over bashrc and vimrc
@@ -17,6 +18,7 @@ sudo apt-get install cmake
 sudo apt-get install python-dev
 sudo apt-get install python3-dev
 sudo apt-get install vim-nox
+sudo apt-get install htop
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 # Update bash with changes
@@ -24,4 +26,5 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 clear
 echo "Run vim and :PluginInstall"
+echo "Update ycm with .ycm_"
 echo "Then run YCM_install script"
