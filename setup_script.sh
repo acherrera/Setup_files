@@ -24,6 +24,11 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 # Update bash with changes
 . ~/.bashrc
 
+
+# Python stuff
+pip3 install flake8
+sudo apt-get install pylint
+
 clear
 echo "Run vim and :PluginInstall"
 echo "Update ycm with .ycm_"
