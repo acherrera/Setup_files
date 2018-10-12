@@ -36,9 +36,24 @@ alias l='ls -CF'
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+# Powerline Stuff
+function _update_ps1() {
+        PS1=$(powerline-shell $?)
+}
+
+if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
 
-# Tmux won't load colors correctly if this isn't explicitly set
+
+########################## Custom Options Here ##############################
+
+
+# Setting up the Python virtual environment
+export WORKON_HOME=~/.virtualenv
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
+source /usr/local/bin/virtualenvwrapper.sh
+
+# Pythonpath for loading modules correctly
+export PYTHONPATH=.
 export TERM=xterm-256color

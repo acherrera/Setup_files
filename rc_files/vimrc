@@ -7,12 +7,9 @@ syntax enable
 set background=dark
 set termguicolors
 
-" Open NERDtree if no file specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Close NERDtree if it's the last window
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Open NERDtree if VIM opens a directory
 autocmd StdinReadPre * let s:std_in=1
@@ -26,6 +23,7 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
+" let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'Valloric/YouCompleteMe'
@@ -35,6 +33,13 @@ Plugin 'https://github.com/tpope/vim-fugitive'
 Plugin 'https://github.com/tomasr/molokai'
 Plugin 'fcpg/vim-orbital'
 Plugin 'https://github.com/altercation/vim-colors-solarized'
+Plugin 'https://github.com/chrisbra/Colorizer'
+Plugin 'https://github.com/whatyouhide/vim-gotham'
+Plugin 'https://github.com/cocopon/iceberg.vim'
+Plugin 'https://bitbucket.org/irontony/vim-fallout'
+Plugin 'https://github.com/tpope/vim-surround'
+Plugin 'https://github.com/airblade/vim-gitgutter'
+
 
 
 
@@ -82,9 +87,10 @@ set expandtab
 set autoindent
 set fileformat=unix
 
-" shit for YCM =================================================
+"For YCM =================================================
 let g:ycm_python_binary_path = '/usr/bin/python3'
 let g:ycm_autoclose_preview_window_after_completion=2
+let g:ycm_server_python_interpreter = '/usr/bin/python3'
 
 " shit for powerline ===========================================
 set rtp+=/usr/share/powerline/bindings/vim/
@@ -93,12 +99,14 @@ set rtp+=/usr/share/powerline/bindings/vim/
 set laststatus=2
  " Use 256 colours (Use this setting only if your terminal supports 256  colours)
 
-" Code folding
+" Codear
+" folding
 set foldmethod=indent 
 set foldnestmax=3
 
 " YCM info crap for C++ configuration
  let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'  
+
 
 " Does not recognize custom colors until down here
 colorscheme molokai
@@ -108,7 +116,9 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+let g:syntastic_python_checkers=['flake8']
+" Use this to put all the error checkers together
+" let g:syntastic_aggregate_errors=1
+

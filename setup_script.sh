@@ -19,6 +19,7 @@ sudo apt-get install python-dev
 sudo apt-get install python3-dev
 sudo apt-get install vim-nox
 sudo apt-get install htop
+sudo apt-get install build-essential
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 # Update bash with changes
@@ -29,7 +30,12 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 pip3 install flake8
 sudo apt-get install pylint
 
+
+# Update/upgrade everything before installing
+sudo apt-get update
+sudo apt-get upgrade
+
 clear
+echo "Move ycm_extra_conf.py to ~/.vim/"
 echo "Run vim and :PluginInstall"
-echo "Update ycm with .ycm_"
 echo "Then run YCM_install script"
