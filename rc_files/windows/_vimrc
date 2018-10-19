@@ -1,0 +1,66 @@
+" Everything needs these two
+set nocompatible " be IMproved
+filetype off    " required
+
+
+
+" ========================== Personal Settings ===================
+
+" Most important setting
+:imap jk <Esc>
+
+" Colors!
+syntax enable
+set background=dark
+
+" More stuff to make it look good
+set number
+syntax on
+set incsearch
+set hlsearch
+
+
+set number
+let python_highlight_all=1
+syntax on
+set incsearch
+set hlsearch
+
+" ===================== Windows Specific ========================="
+if has ("gui_running")
+    set guifont=Lucida_Sans_Typewriter:h12
+endif
+
+"========= This wil allow the tab complete file finder to work ============
+
+set path+=**
+set wildmenu
+
+" =================== This is for tab completion ===============
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set textwidth=79
+set expandtab
+set autoindent
+set fileformat=unix
+
+" ==================== Vundle =========================
+
+set rtp+=C:\Users\hn9157\Vim\vimfiles\bundle\Vundle.vim
+let path='C:\Users\hn9157\Vim\vimfiles\bundle'
+call vundle#begin(path)
+
+
+" Put plugins here
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'https://bitbucket.org/irontony/vim-fallout'
+Plugin 'https://github.com/airblade/vim-gitgutter'
+
+call vundle#end()
+filetype plugin indent on
+
+
+" =================== Not Vundle ===============---
+colorscheme fallout
