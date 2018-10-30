@@ -25,23 +25,28 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'vim-syntastic/syntastic'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
 Plugin 'https://github.com/itchyny/lightline.vim'
 Plugin 'https://github.com/tpope/vim-fugitive'
+
+" Colorschemes
 Plugin 'https://github.com/tomasr/molokai'
-Plugin 'fcpg/vim-orbital'
-Plugin 'https://github.com/altercation/vim-colors-solarized'
-Plugin 'https://github.com/chrisbra/Colorizer'
-Plugin 'https://github.com/whatyouhide/vim-gotham'
-Plugin 'https://github.com/cocopon/iceberg.vim'
 Plugin 'https://bitbucket.org/irontony/vim-fallout'
-Plugin 'https://github.com/tpope/vim-surround'
+Plugin 'https://github.com/whatyouhide/vim-gotham'
+
+
+" Experimental Plugins
+Plugin 'https://github.com/chrisbra/Colorizer'
 Plugin 'https://github.com/airblade/vim-gitgutter'
-
-
-
+Plugin 'https://github.com/w0rp/ale'
+Plugin 'tpope/vim-surround'
+Plugin 'chrisbra/NrrwRgn'
+Plugin 'https://github.com/altercation/vim-colors-solarized'
+Plugin 'ajmwagar/vim-deus'
+Plugin 'dracula/vim'
+Plugin 'takac/vim-hardtime'
+Plugin 'easymotion/vim-easymotion'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -68,11 +73,10 @@ filetype plugin indent on
 
 
 " This is all my personal settings ===============================
-set number
+" set number
 let python_highlight_all=1
 syntax on
 set incsearch
-set hlsearch
 
 "This wil allow the tab complete file finder to work ============
 set path+=**
@@ -107,18 +111,21 @@ set foldnestmax=3
 " YCM info crap for C++ configuration
  let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'  
 
-
 " Does not recognize custom colors until down here
-colorscheme molokai
+colorscheme fallout
 
-" Adding better options for syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" ALE settings
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'python': ['autopep8', 'isort', 'black'],
+\}
 
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq=0
-let g:syntastic_python_checkers=['flake8']
-" Use this to put all the error checkers together
-" let g:syntastic_aggregate_errors=1
 
+" NrrRgn Settings
+let g:nrrw_rgn_pad=10
+
+" Hardtime settings
+let g:hardtime_default_on = 1
+
+" Remap the leader
+let mapleader=";"
