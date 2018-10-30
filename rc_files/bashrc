@@ -50,9 +50,9 @@ fi
 
 
 # Setting up the Python virtual environment
-export WORKON_HOME=~/.virtualenv
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
-source /usr/local/bin/virtualenvwrapper.sh
+# export WORKON_HOME=~/.virtualenv
+# export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
+# source /usr/local/bin/virtualenvwrapper.sh
 
 # Pythonpath for loading modules correctly
 export PYTHONPATH=.
