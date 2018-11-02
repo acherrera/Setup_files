@@ -1,12 +1,10 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-
 " Colors!
 syntax enable
 set background=dark
 set termguicolors
-
 
 " Close NERDtree if it's the last window
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -14,7 +12,6 @@ set termguicolors
 " Open NERDtree if VIM opens a directory
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -29,6 +26,10 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
 Plugin 'https://github.com/itchyny/lightline.vim'
 Plugin 'https://github.com/tpope/vim-fugitive'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'takac/vim-hardtime'
+Plugin 'https://github.com/airblade/vim-gitgutter'
+Plugin 'https://github.com/w0rp/ale'
 
 " Colorschemes
 Plugin 'https://github.com/tomasr/molokai'
@@ -38,15 +39,13 @@ Plugin 'https://github.com/whatyouhide/vim-gotham'
 
 " Experimental Plugins
 Plugin 'https://github.com/chrisbra/Colorizer'
-Plugin 'https://github.com/airblade/vim-gitgutter'
-Plugin 'https://github.com/w0rp/ale'
 Plugin 'tpope/vim-surround'
 Plugin 'chrisbra/NrrwRgn'
 Plugin 'https://github.com/altercation/vim-colors-solarized'
 Plugin 'ajmwagar/vim-deus'
 Plugin 'dracula/vim'
-Plugin 'takac/vim-hardtime'
-Plugin 'easymotion/vim-easymotion'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'justinmk/vim-sneak'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -77,6 +76,7 @@ filetype plugin indent on
 let python_highlight_all=1
 syntax on
 set incsearch
+set nohlsearch
 
 "This wil allow the tab complete file finder to work ============
 set path+=**
@@ -99,20 +99,18 @@ let g:ycm_server_python_interpreter = '/usr/bin/python3'
 " shit for powerline ===========================================
 set rtp+=/usr/share/powerline/bindings/vim/
 
-" Always show statuslie =========================================
+" Always show statusline =========================================
 set laststatus=2
- " Use 256 colours (Use this setting only if your terminal supports 256  colours)
 
-" Codear
 " folding
 set foldmethod=indent 
 set foldnestmax=3
 
 " YCM info crap for C++ configuration
- let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'  
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'  
 
 " Does not recognize custom colors until down here
-colorscheme fallout
+colorscheme molokai
 
 " ALE settings
 let g:ale_fixers = {
@@ -120,12 +118,36 @@ let g:ale_fixers = {
 \   'python': ['autopep8', 'isort', 'black'],
 \}
 
-
 " NrrRgn Settings
-let g:nrrw_rgn_pad=10
+let g:nrrw_rgn_pad=5
 
 " Hardtime settings
 let g:hardtime_default_on = 1
 
 " Remap the leader
-let mapleader=";"
+let mapleader=","
+
+" Typescript Support
+autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
+
+" Stop exiting accidentally
+function! ConfirmQuit(writeFile)
+    if (a:writeFile)
+        if (expand('%:t')=="")
+            echo "Can't save a file with no name."
+            return
+        endif
+        :write
+    endif
+
+    if (winnr('$')==1 && tabpagenr('$')==1)
+        if (confirm("Do you really want to quit?", "&Yes\n&No", 2)==1)
+            :quit
+        endif
+    else
+        :quit
+    endif
+endfu
+
+cnoremap <silent> q<CR>  :call ConfirmQuit(0)<CR>
+cnoremap <silent> x<CR>  :call ConfirmQuit(1)<CR>
