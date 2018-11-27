@@ -18,10 +18,19 @@ sudo apt-get install cmake
 sudo apt-get install python-dev
 sudo apt-get install python3-dev
 sudo apt-get install python3-pip
-sudo apt-get install vim-nox
 sudo apt-get install htop
 sudo apt-get install build-essential
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+# Adding NVIM
+sudo apt-get install software-properties-common
+sudo apt-add-repository ppa:neovim-ppa/stable
+sudo apt-get update
+sudo apt-get install neovim
+sudo pip3 install --upgrade neovim
+mkdir ~/.config/nvim
+cp ./rc_files/init.vim ~/.config/nvim/
+
 
 # Update bash with changes
 . ~/.bashrc
@@ -33,6 +42,7 @@ sudo apt-get install fonts-powerline
 
 # Python stuff
 pip3 install flake8
+pip3 install wheel
 sudo apt-get install pylint
 
 
