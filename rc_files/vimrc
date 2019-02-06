@@ -7,7 +7,7 @@ set background=dark
 set termguicolors
 
 " Close NERDtree if it's the last window
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Open NERDtree if VIM opens a directory
 autocmd StdinReadPre * let s:std_in=1
@@ -27,7 +27,6 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'https://github.com/itchyny/lightline.vim'
 Plugin 'https://github.com/tpope/vim-fugitive'
 Plugin 'easymotion/vim-easymotion'
-Plugin 'takac/vim-hardtime'
 Plugin 'https://github.com/airblade/vim-gitgutter'
 Plugin 'https://github.com/w0rp/ale'
 
@@ -35,17 +34,14 @@ Plugin 'https://github.com/w0rp/ale'
 Plugin 'https://github.com/tomasr/molokai'
 Plugin 'https://bitbucket.org/irontony/vim-fallout'
 Plugin 'https://github.com/whatyouhide/vim-gotham'
-
+Plugin 'flazz/vim-colorschemes'
 
 " Experimental Plugins
 Plugin 'https://github.com/chrisbra/Colorizer'
 Plugin 'tpope/vim-surround'
 Plugin 'chrisbra/NrrwRgn'
-Plugin 'https://github.com/altercation/vim-colors-solarized'
-Plugin 'ajmwagar/vim-deus'
-Plugin 'dracula/vim'
+Plugin 'takac/vim-hardtime'
 Plugin 'leafgarland/typescript-vim'
-Plugin 'justinmk/vim-sneak'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -72,7 +68,7 @@ filetype plugin indent on
 
 
 " This is all my personal settings ===============================
-" set number
+set number
 let python_highlight_all=1
 syntax on
 set incsearch
@@ -99,9 +95,10 @@ let g:ycm_server_python_interpreter = '/usr/bin/python3'
 " shit for powerline ===========================================
 set rtp+=/usr/share/powerline/bindings/vim/
 
-" Always show statusline =========================================
+" Always show statuslie =========================================
 set laststatus=2
 
+" Codear
 " folding
 set foldmethod=indent 
 set foldnestmax=3
@@ -110,7 +107,7 @@ set foldnestmax=3
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'  
 
 " Does not recognize custom colors until down here
-colorscheme molokai
+colorscheme molokai 
 
 " ALE settings
 let g:ale_fixers = {
@@ -118,11 +115,14 @@ let g:ale_fixers = {
 \   'python': ['autopep8', 'isort', 'black'],
 \}
 
+let g:ale_set_highlights = 0
+
+
 " NrrRgn Settings
 let g:nrrw_rgn_pad=5
 
 " Hardtime settings
-let g:hardtime_default_on = 1
+" let g:hardtime_default_on = 1
 
 " Remap the leader
 let mapleader=","
@@ -151,3 +151,16 @@ endfu
 
 cnoremap <silent> q<CR>  :call ConfirmQuit(0)<CR>
 cnoremap <silent> x<CR>  :call ConfirmQuit(1)<CR>
+
+" Treat Arduino files like C++
+autocmd BufNewFile,BufReadPost *.ino,*.pde set filetype=cpp
+
+" HTML better
+" Enclose with a
+" inoremap a<space><space> <><esc>i
+" Copy tag and add the end
+" inoremap b<space><space> <esc>F<y2ef>pbi/<esc>F<i
+" inoremap c<space><space> <esc>F<y2ef>pbi/<esc>F<i<enter><enter><esc>ki<tab>
+"
+nnoremap +d Oimport pudb; pudb.set_trace()<esc>0j
+nnoremap -d :set hlsearch <enter> /pdb
