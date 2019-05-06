@@ -1,6 +1,10 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+""""" THE MOST IMPORTANT """""
+:imap jk <Esc>
+
+
 " Colors!
 syntax enable
 set background=dark
@@ -29,19 +33,16 @@ Plugin 'https://github.com/tpope/vim-fugitive'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'https://github.com/airblade/vim-gitgutter'
 Plugin 'https://github.com/w0rp/ale'
+Plugin 'https://github.com/chrisbra/NrrwRgn' 
 
 " Colorschemes
 Plugin 'https://github.com/tomasr/molokai'
-Plugin 'https://bitbucket.org/irontony/vim-fallout'
-Plugin 'https://github.com/whatyouhide/vim-gotham'
+" Plugin 'https://bitbucket.org/irontony/vim-fallout'
+" Plugin 'https://github.com/whatyouhide/vim-gotham'
 Plugin 'flazz/vim-colorschemes'
 
 " Experimental Plugins
-Plugin 'https://github.com/chrisbra/Colorizer'
-Plugin 'tpope/vim-surround'
-Plugin 'chrisbra/NrrwRgn'
-Plugin 'takac/vim-hardtime'
-Plugin 'leafgarland/typescript-vim'
+" Plugin 'https://github.com/chrisbra/Colorizer'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -62,9 +63,6 @@ filetype plugin indent on
 
 
 " ========================== Personal Settings ===================
-
-
-:imap jk <Esc>
 
 
 " This is all my personal settings ===============================
@@ -100,22 +98,25 @@ set laststatus=2
 
 " Codear
 " folding
-set foldmethod=indent 
+set foldmethod=indent
 set foldnestmax=3
 
 " YCM info crap for C++ configuration
-let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'  
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 
 " Does not recognize custom colors until down here
-colorscheme molokai 
+colorscheme molokai
 
 " ALE settings
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'python': ['autopep8', 'isort', 'black'],
+\   'python': ['autopep8',],
+\   'python3': ['autopep8',],
 \}
 
-let g:ale_set_highlights = 0
+let g:ale_set_highlights = 1
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
 
 
 " NrrRgn Settings
@@ -130,28 +131,6 @@ let mapleader=","
 " Typescript Support
 autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
 
-" Stop exiting accidentally
-function! ConfirmQuit(writeFile)
-    if (a:writeFile)
-        if (expand('%:t')=="")
-            echo "Can't save a file with no name."
-            return
-        endif
-        :write
-    endif
-
-    if (winnr('$')==1 && tabpagenr('$')==1)
-        if (confirm("Do you really want to quit?", "&Yes\n&No", 2)==1)
-            :quit
-        endif
-    else
-        :quit
-    endif
-endfu
-
-cnoremap <silent> q<CR>  :call ConfirmQuit(0)<CR>
-cnoremap <silent> x<CR>  :call ConfirmQuit(1)<CR>
-
 " Treat Arduino files like C++
 autocmd BufNewFile,BufReadPost *.ino,*.pde set filetype=cpp
 
@@ -164,3 +143,8 @@ autocmd BufNewFile,BufReadPost *.ino,*.pde set filetype=cpp
 "
 nnoremap +d Oimport pudb; pudb.set_trace()<esc>0j
 nnoremap -d :set hlsearch <enter> /pdb
+set clipboard=unnamedplus
+set mouse=a
+
+
+autocmd FileType cpp setlocal shiftwidth=2 tabstop=2
