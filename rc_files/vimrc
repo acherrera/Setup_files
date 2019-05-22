@@ -13,6 +13,8 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+
+" The good Stuff
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
 Plugin 'https://github.com/itchyny/lightline.vim'
@@ -20,9 +22,11 @@ Plugin 'https://github.com/tpope/vim-fugitive'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'https://github.com/airblade/vim-gitgutter'
 Plugin 'https://github.com/w0rp/ale'
-Plugin 'https://github.com/chrisbra/NrrwRgn' 
 Plugin 'junegunn/fzf'
 Plugin 'christoomey/vim-tmux-navigator'
+
+" For Writing
+Plugin 'https://github.com/reedes/vim-pencil'
 
 " Colorschemes
 Plugin 'flazz/vim-colorschemes'
@@ -129,7 +133,6 @@ set clipboard=unnamedplus
 set mouse=a
 
 
-
 " ###### Vim Splits - Transcend #####
 " Navigation
 nnoremap <C-J> <C-W><C-J>
@@ -166,3 +169,14 @@ nnoremap <silent> vv <C-w>v
 " Ctrl+W T
 " " Close every window in the current tabview but the current one
 " Ctrl+W o
+
+
+" Initialize pencil based on file type
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType text         call pencil#init()
+augroup END
+
+" Spellcheck when writing markdown
+autocmd FileType markdown setlocal spell
