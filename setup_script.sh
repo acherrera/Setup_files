@@ -31,7 +31,6 @@ sudo pip3 install --upgrade neovim
 mkdir ~/.config/nvim
 cp ./rc_files/init.vim ~/.config/nvim/
 
-
 # Update bash with changes
 . ~/.bashrc
 
@@ -50,6 +49,7 @@ sudo apt-get install pylint
 sudo apt-get update
 sudo apt-get upgrade
 
+# Now do the manual stuff
 clear
 echo "Move ycm_extra_conf.py to ~/.vim/"
 echo "Run vim and :PluginInstall"

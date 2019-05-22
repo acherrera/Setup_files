@@ -4,19 +4,6 @@ filetype off                  " required
 """"" THE MOST IMPORTANT """""
 :imap jk <Esc>
 
-
-" Colors!
-syntax enable
-set background=dark
-set termguicolors
-
-" Close NERDtree if it's the last window
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" Open NERDtree if VIM opens a directory
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -34,38 +21,34 @@ Plugin 'easymotion/vim-easymotion'
 Plugin 'https://github.com/airblade/vim-gitgutter'
 Plugin 'https://github.com/w0rp/ale'
 Plugin 'https://github.com/chrisbra/NrrwRgn' 
+Plugin 'junegunn/fzf'
+Plugin 'christoomey/vim-tmux-navigator'
 
 " Colorschemes
-Plugin 'https://github.com/tomasr/molokai'
-" Plugin 'https://bitbucket.org/irontony/vim-fallout'
-" Plugin 'https://github.com/whatyouhide/vim-gotham'
 Plugin 'flazz/vim-colorschemes'
-
-" Experimental Plugins
-" Plugin 'https://github.com/chrisbra/Colorizer'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
-filetype plugin indent on
+
 
 
 " ========================== Personal Settings ===================
 
+" Colors!
+syntax enable
+set background=dark
+set termguicolors
 
-" This is all my personal settings ===============================
+" Close NERDtree if it's the last window
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Open NERDtree if VIM opens a directory
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+
 set number
 let python_highlight_all=1
 syntax on
@@ -114,9 +97,11 @@ let g:ale_fixers = {
 \   'python3': ['autopep8',],
 \}
 
-let g:ale_set_highlights = 1
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
+"let g:ale_lint_on_save = 1
+"let g:ale_lint_on_text_changed = 0
+"let g:ale_set_highlights = 1
+"let g:ale_sign_error = '>>'
+"let g:ale_sign_warning = '--'
 
 
 " NrrRgn Settings
@@ -131,20 +116,53 @@ let mapleader=","
 " Typescript Support
 autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
 
-" Treat Arduino files like C++
+" Treat Arduino files like C++. Tab correction
 autocmd BufNewFile,BufReadPost *.ino,*.pde set filetype=cpp
+autocmd FileType cpp setlocal shiftwidth=2 tabstop=2
 
-" HTML better
-" Enclose with a
-" inoremap a<space><space> <><esc>i
-" Copy tag and add the end
-" inoremap b<space><space> <esc>F<y2ef>pbi/<esc>F<i
-" inoremap c<space><space> <esc>F<y2ef>pbi/<esc>F<i<enter><enter><esc>ki<tab>
-"
+" Add python debugging to program and remove easily
 nnoremap +d Oimport pudb; pudb.set_trace()<esc>0j
 nnoremap -d :set hlsearch <enter> /pdb
+
+" Mouse mode and clipboard that make sense
 set clipboard=unnamedplus
 set mouse=a
 
 
-autocmd FileType cpp setlocal shiftwidth=2 tabstop=2
+
+" ###### Vim Splits - Transcend #####
+" Navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+
+" Better Opening
+set splitbelow
+set splitright
+
+" Easy vertical Splits
+nnoremap <silent> vv <C-w>v
+
+
+" ##### Personal Cheat sheet #####
+" Quick reference stuff I should know
+
+" ##### Vim splits
+" " Resizing 
+" " Max out the height of the current split
+" ctrl + w _
+" " Max out the width of the current split
+" ctrl + w |
+" " Normalize all split sizes, which is very handy when resizing terminal
+" ctrl + w =
+
+" 
+" ##### Swapping splits
+" " Swap top/bottom or left/right split
+" Ctrl+W R
+" " Break out current window into a new tabview
+" Ctrl+W T
+" " Close every window in the current tabview but the current one
+" Ctrl+W o
