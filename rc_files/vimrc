@@ -1,8 +1,9 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-""""" THE MOST IMPORTANT """""
+"==== THE MOST IMPORTANT =====
 :imap jk <Esc>
+
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -24,6 +25,7 @@ Plugin 'https://github.com/airblade/vim-gitgutter'
 Plugin 'https://github.com/w0rp/ale'
 Plugin 'junegunn/fzf'
 Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'benmills/vimux'
 
 " For Writing
 Plugin 'https://github.com/reedes/vim-pencil'
@@ -34,8 +36,6 @@ Plugin 'flazz/vim-colorschemes'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-
-
 
 
 " ========================== Personal Settings ===================
@@ -67,15 +67,15 @@ set wildmenu
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set textwidth=79
+set textwidth=120
 set expandtab
 set autoindent
 set fileformat=unix
 
 "For YCM =================================================
-let g:ycm_python_binary_path = '/usr/bin/python3'
-let g:ycm_autoclose_preview_window_after_completion=2
-let g:ycm_server_python_interpreter = '/usr/bin/python3'
+" let g:ycm_python_binary_path = '/usr/bin/python3'
+" let g:ycm_autoclose_preview_window_after_completion=2
+" let g:ycm_server_python_interpreter = '/usr/bin/python3'
 
 " shit for powerline ===========================================
 set rtp+=/usr/share/powerline/bindings/vim/
@@ -92,27 +92,8 @@ set foldnestmax=3
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 
 " Does not recognize custom colors until down here
-colorscheme molokai
+colorscheme gotham256
 
-" ALE settings
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'python': ['autopep8',],
-\   'python3': ['autopep8',],
-\}
-
-"let g:ale_lint_on_save = 1
-"let g:ale_lint_on_text_changed = 0
-"let g:ale_set_highlights = 1
-"let g:ale_sign_error = '>>'
-"let g:ale_sign_warning = '--'
-
-
-" NrrRgn Settings
-let g:nrrw_rgn_pad=5
-
-" Hardtime settings
-" let g:hardtime_default_on = 1
 
 " Remap the leader
 let mapleader=","
@@ -175,8 +156,27 @@ nnoremap <silent> vv <C-w>v
 augroup pencil
   autocmd!
   autocmd FileType markdown,mkd call pencil#init()
-  autocmd FileType text         call pencil#init()
+  " autocmd FileType text         call pencil#init()
 augroup END
 
 " Spellcheck when writing markdown
 autocmd FileType markdown setlocal spell
+
+
+"########### Vimux stuff ########## 
+" Prompt for a command to run
+map <Leader>vp :VimuxPromptCommand<CR>
+
+" Inspect runner pane
+map <Leader>vi :VimuxInspectRunner<CR>
+
+" Zoom the tmux runner pane
+map <Leader>vz :VimuxZoomRunner<CR>
+
+" let g:VimuxOrientation = "h"
+
+" ALEnext remap
+map <Leader><Leader>a :ALENext<CR>
+map <Leader><Leader>s :ALEPrevious<CR>
+
+let g:ale_set_highlights = 0 " Disable highligting

@@ -5,6 +5,8 @@
 
 set -o vi
 bind  '"jk":vi-movement-mode'
+force_color_prompt=yes
+export TERM="xterm-256color"
 
 # Set vim sa defualt text editor
 export EDITOR='vim'
@@ -22,13 +24,13 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
+alias lh='ls -lah'
 
 
 # Alias definitions.
@@ -49,16 +51,84 @@ fi
 ########################## Custom Options Here ##############################
 
 
+# Setting up the Python virtual environment
+export WORKON_HOME=~/.virtualenv
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
+source /usr/local/bin/virtualenvwrapper.sh
+
 # Pythonpath for loading modules correctly
 export PYTHONPATH=.
 
-# Custom scripts live here
+# Scripts
+export PATH=$PATH:~/EC2/
+
+# AWS stuff
 PATH=$PATH:~/bin
 
+# User specific aliases and functions
+PATH=~/bin:~/pycharm/bin:$PATH
+
+alias sb="aws --profile sb"
+alias np="aws --profile np"
+alias ftio="aws --profile ftio"
+alias dv="aws --profile dv"
+alias qa="aws --profile qa"
+alias pd="aws --profile pd"
+
 TZ='America/Chicago'; export TZ
+
  
-# Only used neovim, no vim. 
 if type nvim > /dev/null 2>&1; then
    alias vim='nvim'
 fi
 
+export PATH=$PATH:~/scripts/
+alias weather='curl http://wttr.in/~Johnston,IA'
+alias black="black . --exclude 'venv3/|.tox/'"
+
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+
+# Fuzzy file search of given path
+fuzz(){
+	grep --line-buffered --color=never -r "" $1 | fzf
+}
+
+# Parse filename from fuzzy search, open in VIM
+vfuzz(){
+    inVal=$(fuzz $1)
+    IFS=':'
+    read -ra ADDR <<< $inVal
+    vim "${ADDR[0]}"
+}
+
+# Black testing
+bbc(){
+    black . --exclude "\.git|\.tox|venv2/|venv3/" --check
+}
+
+bbrf(){
+    black . --exclude "\.git|\.tox|venv2/|venv3/" 
+}
+
+colortime(){
+    bash -c  "$(wget -qO- https://git.io/vQgMr)"
+}
+
+colormetimbers(){
+    awk 'BEGIN{
+        s="/\\/\\/\\/\\/\\"; s=s s s s s s s s;
+        for (colnum = 0; colnum<77; colnum++) {
+            r = 255-(colnum*255/76);
+            g = (colnum*510/76);
+            b = (colnum*255/76);
+            if (g>255) g = 510-g;
+            printf "\033[48;2;%d;%d;%dm", r,g,b;
+            printf "\033[38;2;%d;%d;%dm", 255-r,255-g,255-b;
+            printf "%s\033[0m", substr(s,colnum+1,1);
+        }
+        printf "\n";
+    }'
+
+}
