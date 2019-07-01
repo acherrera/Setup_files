@@ -8,6 +8,7 @@
 
 
 # Copy over bashrc and vimrc
+cp ./rc_files/tmux.conf ~/.tmux.conf
 cp ./rc_files/bashrc ~/.bashrc
 cp ./rc_files/vimrc ~/.vimrc
 
@@ -15,6 +16,7 @@ cp ./rc_files/vimrc ~/.vimrc
 sudo apt-get install git
 sudo apt-get install tmux
 sudo apt-get install cmake
+sudo apt-get install python
 sudo apt-get install python-dev
 sudo apt-get install python3-dev
 sudo apt-get install python3-pip

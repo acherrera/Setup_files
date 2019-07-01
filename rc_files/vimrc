@@ -26,6 +26,7 @@ Plugin 'https://github.com/w0rp/ale'
 Plugin 'junegunn/fzf'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'benmills/vimux'
+Plugin 'thaerkh/vim-workspace'
 
 " For Writing
 Plugin 'https://github.com/reedes/vim-pencil'
@@ -92,7 +93,7 @@ set foldnestmax=3
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 
 " Does not recognize custom colors until down here
-colorscheme gotham256
+colorscheme badwolf
 
 
 " Remap the leader
@@ -180,3 +181,8 @@ map <Leader><Leader>a :ALENext<CR>
 map <Leader><Leader>s :ALEPrevious<CR>
 
 let g:ale_set_highlights = 0 " Disable highligting
+
+" Workspace trigger
+nnoremap <leader>s :ToggleWorkspace<CR>
+
+" NOTE: use CloseHiddenBuffers to, well, close hidden buffers. Hidden buffers can become too large over time

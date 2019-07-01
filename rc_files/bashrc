@@ -105,7 +105,7 @@ vfuzz(){
 
 # Black testing
 bbc(){
-    black . --exclude "\.git|\.tox|venv2/|venv3/" --check
+    black . --exclude "\.git|\.tox|venv2/|venv3/|\.undodir/" --check
 }
 
 bbrf(){
@@ -131,4 +131,33 @@ colormetimbers(){
         printf "\n";
     }'
 
+}
+
+
+kerby(){
+    # Clears credentials and gets new ones. Change role names to only convention
+    echo "" > ~/.aws/credentials
+    kerb-sts    
+    sed -i -e 's/\[DV-PARP-Dev\]/\[dv\]/g' ~/.aws/credentials
+    sed -i -e 's/\[SB-PARP-Dev\]/\[sb\]/g' ~/.aws/credentials
+    sed -i -e 's/\[QA-PARP-Dev\]/\[qa\]/g' ~/.aws/credentials
+    sed -i -e 's/\[PD-PARP-Dev\]/\[pd\]/g' ~/.aws/credentials
+}
+
+
+demon_kerby(){
+    # Runs kerby in the background
+    repeat_kerby() {
+        # Repeatedly runs kerby. This way we can this bit to the background
+        while true;
+        do
+            sleep 1800
+            kerby
+        done
+    }
+
+    # Run once in the foreground to make sure it succeeds, then run in backgroun
+    kerby
+    # nohup repeat_kerby > /dev/null 2>&1 & 
+    repeat_kerby
 }
