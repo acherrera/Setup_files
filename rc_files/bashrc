@@ -51,11 +51,6 @@ fi
 ########################## Custom Options Here ##############################
 
 
-# Setting up the Python virtual environment
-export WORKON_HOME=~/.virtualenv
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
-source /usr/local/bin/virtualenvwrapper.sh
-
 # Pythonpath for loading modules correctly
 export PYTHONPATH=.
 
@@ -78,9 +73,9 @@ alias pd="aws --profile pd"
 TZ='America/Chicago'; export TZ
 
  
-if type nvim > /dev/null 2>&1; then
-   alias vim='nvim'
-fi
+# if type nvim > /dev/null 2>&1; then
+#    alias vim='nvim'
+# fi
 
 export PATH=$PATH:~/scripts/
 alias weather='curl http://wttr.in/~Johnston,IA'
@@ -89,6 +84,9 @@ alias black="black . --exclude 'venv3/|.tox/'"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+
+
+# ========== HERE BE FUNCTIONS ========== 
 
 # Fuzzy file search of given path
 fuzz(){
@@ -133,31 +131,12 @@ colormetimbers(){
 
 }
 
-
-kerby(){
-    # Clears credentials and gets new ones. Change role names to only convention
-    echo "" > ~/.aws/credentials
-    kerb-sts    
-    sed -i -e 's/\[DV-PARP-Dev\]/\[dv\]/g' ~/.aws/credentials
-    sed -i -e 's/\[SB-PARP-Dev\]/\[sb\]/g' ~/.aws/credentials
-    sed -i -e 's/\[QA-PARP-Dev\]/\[qa\]/g' ~/.aws/credentials
-    sed -i -e 's/\[PD-PARP-Dev\]/\[pd\]/g' ~/.aws/credentials
+set_aws_profile(){
+    if [ $# -eq 0 ]
+    then
+        export AWS_DEFAULT_PROFILE='default'
+    else
+        export AWS_DEFAULT_PROFILE=$1
+    fi
 }
 
-
-demon_kerby(){
-    # Runs kerby in the background
-    repeat_kerby() {
-        # Repeatedly runs kerby. This way we can this bit to the background
-        while true;
-        do
-            sleep 1800
-            kerby
-        done
-    }
-
-    # Run once in the foreground to make sure it succeeds, then run in backgroun
-    kerby
-    # nohup repeat_kerby > /dev/null 2>&1 & 
-    repeat_kerby
-}

@@ -2,8 +2,8 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 "==== THE MOST IMPORTANT =====
-:imap jk <Esc>
-
+imap jk <Esc>
+set backspace=indent,eol,start
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -26,7 +26,6 @@ Plugin 'https://github.com/w0rp/ale'
 Plugin 'junegunn/fzf'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'benmills/vimux'
-Plugin 'thaerkh/vim-workspace'
 
 " For Writing
 Plugin 'https://github.com/reedes/vim-pencil'
@@ -58,7 +57,7 @@ set number
 let python_highlight_all=1
 syntax on
 set incsearch
-set nohlsearch
+set hlsearch
 
 "This wil allow the tab complete file finder to work ============
 set path+=**
@@ -93,7 +92,7 @@ set foldnestmax=3
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 
 " Does not recognize custom colors until down here
-colorscheme badwolf
+colorscheme jellybeans
 
 
 " Remap the leader
@@ -104,11 +103,10 @@ autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
 
 " Treat Arduino files like C++. Tab correction
 autocmd BufNewFile,BufReadPost *.ino,*.pde set filetype=cpp
-autocmd FileType cpp setlocal shiftwidth=2 tabstop=2
+autocmd FileType cpp setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " Add python debugging to program and remove easily
 nnoremap +d Oimport pudb; pudb.set_trace()<esc>0j
-nnoremap -d :set hlsearch <enter> /pdb
 
 " Mouse mode and clipboard that make sense
 set clipboard=unnamedplus
@@ -186,3 +184,6 @@ let g:ale_set_highlights = 0 " Disable highligting
 nnoremap <leader>s :ToggleWorkspace<CR>
 
 " NOTE: use CloseHiddenBuffers to, well, close hidden buffers. Hidden buffers can become too large over time
+
+" Remap to turn off highlighting when done
+nnoremap <leader>f :noh<CR>
