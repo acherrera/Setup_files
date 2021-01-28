@@ -1,17 +1,78 @@
 " Everything needs these two
 set nocompatible " be IMproved
 filetype off    " required
+ 
+" Vim with all enhancements
+source $VIMRUNTIME/vimrc_example.vim
+
+" Remap a few keys for Windows behavior
+source $VIMRUNTIME/mswin.vim
+
+" Use the internal diff if available.
+" Otherwise use the special 'diffexpr' for Windows.
+if &diffopt !~# 'internal'
+  set diffexpr=MyDiff()
+endif
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg1 = substitute(arg1, '!', '\!', 'g')
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg2 = substitute(arg2, '!', '\!', 'g')
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let arg3 = substitute(arg3, '!', '\!', 'g')
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      if empty(&shellxquote)
+        let l:shxq_sav = ''
+        set shellxquote&
+      endif
+      let cmd = '"' . $VIMRUNTIME . '\diff"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  let cmd = substitute(cmd, '!', '\!', 'g')
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+  if exists('l:shxq_sav')
+    let &shellxquote=l:shxq_sav
+  endif
+endfunction
 
 
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
 
-" ========================== Personal Settings ===================
+" Make sure you use single quotes
 
-" Most important setting
-:imap jk <Esc>
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+Plug 'junegunn/vim-easy-align'
+Plug 'flazz/vim-colorschemes'
+Plug 'easymotion/vim-easymotion'
+Plug 'preservim/nerdtree'
+Plug 'vim-scripts/AutoComplPop'
+
+" Initialize plugin system
+call plug#end()
+
+" Most important thing ever
+imap jk <Esc>
+
+" Make it look good
+colorscheme Monokai
+set guifont=Consolas:h11 " change font size
 
 " Colors!
 syntax enable
-set background=dark
 
 " More stuff to make it look good
 set number
@@ -20,24 +81,7 @@ set incsearch
 set hlsearch
 
 
-set number
-let python_highlight_all=1
-syntax on
-set incsearch
-set hlsearch
-
-" ===================== Windows Specific ========================="
-if has ("gui_running")
-    set guifont=Lucida_Sans_Typewriter:h12
-endif
-
-"========= This wil allow the tab complete file finder to work ============
-
-set path+=**
-set wildmenu
-
-" =================== This is for tab completion ===============
-
+" Tab indents
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -46,21 +90,69 @@ set expandtab
 set autoindent
 set fileformat=unix
 
-" ==================== Vundle =========================
+" Better Opening
+set splitbelow
+set splitright
 
-set rtp+=C:\Users\hn9157\Vim\vimfiles\bundle\Vundle.vim
-let path='C:\Users\hn9157\Vim\vimfiles\bundle'
-call vundle#begin(path)
-
-
-" Put plugins here
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'https://bitbucket.org/irontony/vim-fallout'
-Plugin 'https://github.com/airblade/vim-gitgutter'
-
-call vundle#end()
-filetype plugin indent on
+" Easy vertical Splits
+nnoremap <silent> vv <C-w>v
 
 
-" =================== Not Vundle ===============---
-colorscheme fallout
+" Remap the leader
+let mapleader=","
+
+" turn hybrid line numbers off
+set nonumber norelativenumber
+set nonu nornu
+
+set number relativenumber
+set nu rnu
+
+
+" Experimental easymotion mapping
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+" nmap s <Plug>(easymotion-overwin-f)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Turn on case-insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Vim default autocomplete plugin
+set complete+=kspell
+set completeopt=menuone,longest
+set shortmess+=c
+
+set foldmethod=indent
+
+nnoremap +d Oimport pudb; pudb.set_trace()<esc>0j
+set clipboard=unnamedplus
