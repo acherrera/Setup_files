@@ -1,63 +1,52 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+set shell=bash " required for fish shell
 
 "==== THE MOST IMPORTANT =====
 imap jk <Esc>
+" set nu rnu
 set backspace=indent,eol,start
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
+call plug#begin('~/.vim/plugged')
 " The good Stuff
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/nerdtree'
-Plugin 'https://github.com/itchyny/lightline.vim'
-Plugin 'https://github.com/tpope/vim-fugitive'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'https://github.com/airblade/vim-gitgutter'
-Plugin 'https://github.com/w0rp/ale'
-Plugin 'junegunn/fzf'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'benmills/vimux'
+Plug 'https://github.com/itchyny/lightline.vim'
+Plug 'https://github.com/tpope/vim-fugitive'
+Plug 'easymotion/vim-easymotion'
+Plug 'https://github.com/airblade/vim-gitgutter'
+Plug 'junegunn/fzf'
+Plug 'psf/black'
+Plug 'https://github.com/chrisbra/Colorizer'
+Plug 'https://github.com/dag/vim-fish'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/nerdtree'
 
-" For Writing
-Plugin 'https://github.com/reedes/vim-pencil'
+Plug 'christoomey/vim-tmux-navigator' " ctrl+h and ctr+j movement
+
+" Chopping block
+" Plug 'plasticboy/vim-markdown'
 
 " Colorschemes
-Plugin 'flazz/vim-colorschemes'
+Plug 'flazz/vim-colorschemes'
+hi Normal guibg=NONE ctermbg=NONE
+call plug#end()
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
 
 
 " ========================== Personal Settings ===================
+
+" For fzf
+set rtp+=/home/tony/programs/fzf/bin/fzf
 
 " Colors!
 syntax enable
 set background=dark
 set termguicolors
 
-" Close NERDtree if it's the last window
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" Open NERDtree if VIM opens a directory
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-
-
 set number
 let python_highlight_all=1
 syntax on
 set incsearch
-set hlsearch
+set nohlsearch
 
 "This wil allow the tab complete file finder to work ============
 set path+=**
@@ -86,17 +75,31 @@ set laststatus=2
 " Codear
 " folding
 set foldmethod=indent
-set foldnestmax=3
+" set foldnestmax=3
 
 " YCM info crap for C++ configuration
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 
 " Does not recognize custom colors until down here
-colorscheme jellybeans
+colorscheme molokai
+" transparenty backgroun
+" hi Normal guibg=NONE ctermbg=NONE
 
 
 " Remap the leader
 let mapleader=","
+
+""""""""""""" EasyMotion configuration """""""""""""""
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+
+" up, down, left, right
+map <Leader>w <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>b <Plug>(easymotion-linebackward)
+
+
 
 " Typescript Support
 autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
@@ -105,28 +108,12 @@ autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
 autocmd BufNewFile,BufReadPost *.ino,*.pde set filetype=cpp
 autocmd FileType cpp setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
-" Add python debugging to program and remove easily
+" Add python debugging to program and remove easily - freaking awesome!
 nnoremap +d Oimport pudb; pudb.set_trace()<esc>0j
 
 " Mouse mode and clipboard that make sense
 set clipboard=unnamedplus
 set mouse=a
-
-
-" ###### Vim Splits - Transcend #####
-" Navigation
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-
-" Better Opening
-set splitbelow
-set splitright
-
-" Easy vertical Splits
-nnoremap <silent> vv <C-w>v
 
 
 " ##### Personal Cheat sheet #####
@@ -151,39 +138,69 @@ nnoremap <silent> vv <C-w>v
 " Ctrl+W o
 
 
-" Initialize pencil based on file type
-augroup pencil
-  autocmd!
-  autocmd FileType markdown,mkd call pencil#init()
-  " autocmd FileType text         call pencil#init()
-augroup END
-
 " Spellcheck when writing markdown
 autocmd FileType markdown setlocal spell
 
 
-"########### Vimux stuff ########## 
-" Prompt for a command to run
-map <Leader>vp :VimuxPromptCommand<CR>
-
-" Inspect runner pane
-map <Leader>vi :VimuxInspectRunner<CR>
-
-" Zoom the tmux runner pane
-map <Leader>vz :VimuxZoomRunner<CR>
-
-" let g:VimuxOrientation = "h"
-
-" ALEnext remap
-map <Leader><Leader>a :ALENext<CR>
-map <Leader><Leader>s :ALEPrevious<CR>
-
-let g:ale_set_highlights = 0 " Disable highligting
-
-" Workspace trigger
-nnoremap <leader>s :ToggleWorkspace<CR>
+" Workspace trigger - add later
+" nnoremap <leader>s :ToggleWorkspace<CR>
+" let g:workspace_session_directory = $HOME . '/.vim/sessions/'
+" let g:workspace_session_disable_on_args = 1
 
 " NOTE: use CloseHiddenBuffers to, well, close hidden buffers. Hidden buffers can become too large over time
 
 " Remap to turn off highlighting when done
-nnoremap <leader>f :noh<CR>
+" nnoremap <leader>f :noh<CR>
+
+" Don't offer to open certain files/directories
+set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
+set wildignore+=*.pdf,*.psd
+set wildignore+=*.pyc
+set wildignore+=node_modules/*,bower_components/*
+
+" What? 
+map <C-n> :set number!<CR>
+
+" Make set tags work
+set tags=tags;/
+
+" Coc stuff
+so ~/.vim/scripts/coc.vim
+
+
+" ###### Vim Splits - Transcend #####
+" Navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+
+" Better Opening
+set splitbelow
+set splitright
+
+" Easy vertical Splits
+nnoremap <silent> vv <C-w>v
+
+" NERDTree open on start if nothing specified
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+
+autocmd vimenter * NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+
+""""""""""""""""""""""""" NOTES """"""""""""""""""""""""""
+
+""""" Find all usages in project
+" https://vi.stackexchange.com/questions/7233/how-to-go-to-the-next-grep-result
+" Find all usages
+nnoremap <Leader>f :vimgrep! <cword> **/*.py <CR>
+
+" Go to next/previous
+nnoremap [q :cnext <CR>
+nnoremap ]q :cprevious <CR>
